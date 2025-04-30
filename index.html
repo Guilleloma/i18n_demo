@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>i18n Demo</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .card { border: 1px solid #ccc; border-radius: 10px; padding: 20px; margin-top: 20px; width: 400px; }
+    select { padding: 5px; font-size: 14px; }
+    .label { font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🌍 Demo de Traducciones</h1>
+  <label for="language">Selecciona un idioma:</label>
+  <select id="language">
+    <option value="en_GB">English (UK)</option>
+    <option value="es_ES">Español</option>
+    <option value="it_IT">Italiano</option>
+    <option value="de_DE">Deutsch</option>
+    <option value="fr_FR">Français</option>
+    <option value="pt_PT">Português (PT)</option>
+    <option value="pt_BR">Português (BR)</option>
+  </select>
+
+  <div class="card">
+    <p><span class="label">🔌 Canal:</span> <span id="channel-error"></span></p>
+    <p><span class="label">🔍 Filtro:</span> <span id="filter-error"></span></p>
+    <p><span class="label">🏠 Selección:</span> <span id="selection"></span></p>
+    <p><span class="label">✅ Aceptación:</span> <span id="accept-info"></span></p>
+  </div>
+
+  <script>
+    const elements = {
+      "channel-error": "acc-list-channels-error",
+      "filter-error": "acc-list-filter-error",
+      "selection": "acc-selected.one",
+      "accept-info": "accept-information"
+    };
+
+    async function loadLanguage(lang) {
+      const response = await fetch(`${lang}.json`);
+      const translations = await response.json();
+      for (const [elId, key] of Object.entries(elements)) {
+        document.getElementById(elId).textContent = translations[key] || `[${key}]`;
+      }
+    }
+
+    document.getElementById('language').addEventListener('change', (e) => {
+      loadLanguage(e.target.value);
+    });
+
+    loadLanguage('en_GB'); // carga inicial
+  </script>
+</body>
+</html>
