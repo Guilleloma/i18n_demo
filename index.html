@@ -40,7 +40,7 @@
     };
 
     async function loadLanguage(lang) {
-      const response = await fetch(`${lang}.json`);
+      const response = await fetch(`./${lang}.json`);
       const translations = await response.json();
       for (const [elId, key] of Object.entries(elements)) {
         document.getElementById(elId).textContent = translations[key] || `[${key}]`;
